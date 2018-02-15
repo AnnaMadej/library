@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Delete</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link th:href="@{/css/modern-business.css}" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="Fragments/Menus :: top-menu"></nav>
+<div th:replace="Fragments/Menus :: side-menu"></div>
+<!-- Page Content -->
+
+<div class="container col-md-9">
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="page-header">Usuwanie książki</h1>
+        </div>
+    </div><!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5" >
+                            <a href="portfolio-item.html">
+                                <img class="img-responsive" src="http://placehold.it/480x240">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 th:text="${book.title}"></h3>
+                            <h4 th:text="${book.author}"></h4>
+                            <p><span>Stron: </span><span th:text="${book.pages}"></span></p>
+                        </div>
+                    </div>
+            </div>
+            <div class="jumbotron text-center">
+                <form role="form" class="form form-inline" enctype="multipart/form-data" th:action="@{'/delete/' + ${book.id}}" th:method="post">
+                    Czy chcesz usunąć powyższą książkę?
+                    <input type="submit" class="btn btn-danger" value="TAK">
+                    <a th:href="@{/}"><button type="button" class="btn btn-success " >NIE</button></a>
+                </form>
+
+            </div>
+        </div>
+
+    </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<div class="container">
+
+    <hr>
+
+    <footer th:replace="Fragments/footer :: footer"> </footer>
+
+</div><!-- /.container -->
+
+<!-- JavaScript -->
+<script th:src="@{/js/jquery-1.10.2.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/modern-business.js}"></script>
+
+</body>
+</html>
