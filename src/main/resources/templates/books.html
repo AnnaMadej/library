@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Catalogue</title>
+    <title>Books</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -22,25 +22,22 @@
 <div class="container col-md-9">
     <div class="row">
         <div class="col-md-9">
-            <h1 class="page-header" th:text = "${category.categoryName}"></h1>
+           <h1 class="page-header" th:text = "${categoryName}"></h1>
         </div>
-    </div><!-- /.row -->
+    </div>
 
     <div class="row">
         <div class="col-md-9">
             <div class="panel-body">
                 <div class="jumbotron text-center" th:if="${info!=null}" th:text="${info}"> </div>
                 <div class="text-center">
-                    <form class="form-inline" id="pageForm" action="" method="post" th:action="${category.categoryId != 0 } ? @{'/catalogue/' + ${category.categoryId} } : @{'/search/'} " >
-                        <input type="hidden" name="words" th:value="${words}">
                         <ul class="pagination pagination-lg">
                             <th:block th:each="pageNo : ${#numbers.sequence(0, books.totalPages - 1)}" >
                                 <li th:if="${pageNo>-1}">
-                                    <button form="pageForm" th:class="${books.number != pageNo}? 'btn btn-default' : 'btn btn-default disabled'" name="page" th:value="${pageNo}" th:text="${pageNo + 1}" type="submit" ></button>
+                                    <a th:href="@{'../' + ${categoryId} + '/' + ${pageNo}}" th:class="${books.number != pageNo}? 'btn btn-default' : 'btn btn-default disabled'" th:text="${pageNo + 1}"></a>
                                 </li>
                             </th:block>
                         </ul>
-                    </form>
                 </div>
 
                 <th:block th:each="book : ${books}">
@@ -51,11 +48,9 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <h3 th:text="${book.title}"></h3>
+                            <a th:href="@{'/book/' + ${book.id}}"><h3 th:text="${book.title}"></h3></a>
                             <h4 th:text="${book.author}"></h4>
                             <p><span>Stron: </span><span th:text="${book.pages}"></span></p>
-                            <a th:if="${currentUser.login!=null}" class="btn btn-primary"  th:href="@{'/editBook/' + ${book.id}}" >Edytuj <i class="fa fa-angle-right"></i></a>
-                            &nbsp;<a th:if="${currentUser.login!=null}" class="btn btn-danger" th:href="@{'/delete/' + ${book.id}}" >Usuń <i class="fa fa-angle-right"></i></a>
 
                         </div>
                     </div>

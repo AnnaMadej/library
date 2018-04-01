@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-md-9">
             <div class="panel-body">
-                <div class="jumbotron text-center" th:if="${changeOK==true}"> Dane zmienione! </div>
+                <div class="jumbotron text-center" th:if="${changed==true}"> Dane zmienione! </div>
                 <h3 th:text = "${currentUser.login}"></h3>
                 <form role="form" enctype="multipart/form-data" th:action="@{/profile}" th:method="post" th:object="${profileForm}">
                 <div th:class="${#fields.hasErrors('name')?'form-group has-error':'form group'}">
@@ -46,7 +46,7 @@
                 <div th:class="'form group'">
                     <label for="oldPassword" class=control-label > Hasło: </label>
                     <input class="form-control" placeholder="old password" th:field="*{oldPassword}" id="oldPassword" name="oldPassword" type="password" value="">
-                    <small> <p class="text-danger text-right" th:if="${passwordError==true}" >Złe hasło!</p></small>
+                    <small> <p class="text-danger text-right" th:if="${changed==false}" >Złe hasło!</p></small>
                 </div>
                     <br/>
                 <div><input type="submit" class="btn btn-lg btn-success btn-block" value="Zmień dane"></div>

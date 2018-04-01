@@ -1,6 +1,6 @@
 package com.aniamadej.Library.Models.Repositories;
 
-import com.aniamadej.Library.Models.UserModel;
+import com.aniamadej.Library.Models.Entities.UserModel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

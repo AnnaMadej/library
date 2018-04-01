@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class PasswordChangeForm {
 
-    @Size(min=6, max=255)
     @NotBlank
     private String oldPassword;
 

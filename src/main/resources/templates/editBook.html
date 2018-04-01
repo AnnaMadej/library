@@ -22,15 +22,15 @@
 <div class="container col-md-9">
     <div class="row">
         <div class="col-md-9">
-            <h1 class="page-header">Dodaj książkę: </h1>
+          <!--  <h1 class="page-header">Dodaj książkę: </h1> -->
         </div>
     </div><!-- /.row -->
 
     <div class="row">
         <div class="col-md-9">
             <div class="panel-body">
-                <div class="jumbotron text-center" th:if="${addingOK==true}"> Dane książki zostały zmienione! </div>
-                <form role="form" enctype="multipart/form-data" th:action="@{'/editBook/' + ${bookId}}" th:method="post" th:object="${bookForm}">
+                <div class="jumbotron text-center" th:if="${success==true}"> Dane książki zostały zmienione! </div>
+                <form role="form" enctype="multipart/form-data" action="#" th:method="post" th:object="${bookForm}">
                     <fieldset>
                         <div th:class="${#fields.hasErrors('title')?'form-group has-error':'form group'}">
                             <label for="title" class=control-label > Tytuł: </label>

@@ -1,10 +1,10 @@
-package com.aniamadej.Library.Models;
+package com.aniamadej.Library.Models.Entities;
 
+import com.aniamadej.Library.Models.Entities.BookModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.awt.print.Book;
 import java.util.List;
 
 @Data

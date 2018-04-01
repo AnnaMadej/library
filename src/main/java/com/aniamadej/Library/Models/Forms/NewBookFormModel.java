@@ -10,13 +10,9 @@ public class NewBookFormModel {
     @Size(min=3, max=100)
     @NotBlank
     private String title;
-
     @Size(min=3, max=100)
     @NotBlank
     private String author;
-
     private int pages;
-
     private int categoryId;
-
 }

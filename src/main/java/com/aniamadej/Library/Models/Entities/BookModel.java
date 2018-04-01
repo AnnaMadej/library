@@ -1,4 +1,4 @@
-package com.aniamadej.Library.Models;
+package com.aniamadej.Library.Models.Entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class BookModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     @ManyToOne
     @JoinColumn (name="who")
     private UserModel who;
@@ -21,16 +21,14 @@ public class BookModel {
 
     @ManyToOne
     @JoinColumn (name="categoryId")
-    private CategoryModel categoryId;
+    private CategoryModel category;
 
-    public BookModel(UserModel who, String title, String author, int pages, CategoryModel categoryId) {
-
-
+    public BookModel(UserModel who, String title, String author, int pages, CategoryModel category) {
         this.who = who;
         this.title = title;
         this.author = author;
         this.pages = pages;
-        this.categoryId = categoryId;
+        this.category = category;
     }
 
     @Override
@@ -41,5 +39,12 @@ public class BookModel {
                 ", author='" + author + '\'' +
                 ", pages=" + pages +
                 '}';
+    }
+
+    public BookModel(String title, String author, int pages) {
+        this.id = null;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
     }
 }

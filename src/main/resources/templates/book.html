@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blank page</title>
+    <title>Delete</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -22,16 +22,28 @@
 <div class="container col-md-9">
     <div class="row">
         <div class="col-md-9">
-            <h1 class="page-header">Biblioteka</h1>
+           <h1 class="page-header"></h1>
         </div>
     </div><!-- /.row -->
 
     <div class="row">
         <div class="col-md-9">
             <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5" >
+                            <a href="portfolio-item.html">
+                                <img class="img-responsive" src="http://placehold.it/480x240">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <h3 th:text="${book.title}"></h3>
+                            <h4 th:text="${book.author}"></h4>
+                            <p><span>Stron: </span><span th:text="${book.pages}"></span></p>
+                            <a th:if="${currentUser.login!=null}" class="btn btn-primary"  th:href="@{'/book/' + ${book.id} + '/edit'}" >Edytuj <i class="fa fa-angle-right"></i></a>
+                            &nbsp;<a th:if="${currentUser.login!=null}" class="btn btn-danger" th:href="@{'/book/' + ${book.id} + '/delete'}" >Usuń <i class="fa fa-angle-right"></i></a>
 
-                <div class="jumbotron text-center" th:if="${deleted==true}"> Książka usunięta! </div>
-
+                        </div>
+                    </div>
             </div>
         </div>
 
