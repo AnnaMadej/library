@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,25 +25,39 @@ public class UserService {
 
     private UserRepository userRepository;
     private ModelMapper modelMapper;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     LoggedUserDto user = new LoggedUserDto();
 
-    public boolean checkPassword(String password){
-        if (!userRepository.existsByLoginAndPassword(this.getUser().getLogin(), password)) return false;
+    public boolean correctPassword(String password){
+        if (!correctPassword(this.getUser().getLogin(), password)) return false;
+        return true;
+    }
+
+    public boolean correctPassword(String login, String password){
+        if (!bCryptPasswordEncoder.matches(password, userRepository.getPassword(login))) {
+            return false;
+        }
         return true;
     }
 
     public boolean loginUser(String login, String password){
-        if (!userRepository.existsByLoginAndPassword(login, password)) return false;
-            this.setUser(modelMapper.map(userRepository.findByLogin(login), LoggedUserDto.class));
-            return true;
+        if (!userRepository.existsByLogin(login)) {
+            return false;
+        }
+        if (!correctPassword(login, password)) return false;
+        this.setUser(modelMapper.map(userRepository.findByLogin(login), LoggedUserDto.class));
+        return true;
     }
+
+
 
 
     public Optional<String> registerUser(RegisterForm registerForm) {
@@ -61,7 +76,7 @@ public class UserService {
     }
 
     public boolean updateProfile(ProfileForm profileForm) {
-        if(!checkPassword(profileForm.getOldPassword())) return false;
+        if(!correctPassword(profileForm.getOldPassword())) return false;
         UserModel userModel = userRepository.findOne(this.getUser().getId());
         modelMapper.map(profileForm, userModel);
         userRepository.save(userModel);
@@ -69,10 +84,10 @@ public class UserService {
     }
 
     public Optional<String> changePasswd(PasswordChangeForm passwordChangeForm) {
-        if(!checkPassword(passwordChangeForm.getOldPassword())) return Optional.of("badPassword");
+        if(!correctPassword(passwordChangeForm.getOldPassword())) return Optional.of("badPassword");
         if (!passwordChangeForm.getPassword().equals(passwordChangeForm.getPassword2())) return Optional.of("passwordsError");
         UserModel userModel = userRepository.findOne(this.getUser().getId());
-        modelMapper.map(passwordChangeForm, userModel);
+        userModel.setPassword(bCryptPasswordEncoder.encode(passwordChangeForm.getPassword()));
         userRepository.save(userModel);
         return Optional.of("changed");
     }

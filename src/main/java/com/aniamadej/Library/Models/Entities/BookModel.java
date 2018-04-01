@@ -31,16 +31,6 @@ public class BookModel {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "BookModel{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", pages=" + pages +
-                '}';
-    }
-
     public BookModel(String title, String author, int pages) {
         this.id = null;
         this.title = title;

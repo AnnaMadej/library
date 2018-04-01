@@ -76,7 +76,7 @@ public class BookController {
     public String delete(@PathVariable int bookId, Model model) {
         if (userService.getUser().getLogin() == null) return "redirect:/login.html";
         model.addAttribute("book", bookService.getBookDto(bookId));
-        return "delete";
+        return "deleteBook";
     }
 
 
@@ -91,7 +91,7 @@ public class BookController {
     public String register(Model model){
         if (userService.getUser().getLogin()==null) return "redirect:login";
         model.addAttribute("newBookForm", new NewBookFormModel());
-        return "newBook";
+        return "addBook";
     }
 
     @PostMapping("/book/add")
@@ -99,6 +99,6 @@ public class BookController {
         if(!bindingResult.hasErrors()){
             model.addAttribute("success",bookService.addBook(newBookForm) );
         }
-        return "newBook";
+        return "addBook";
     }
 }

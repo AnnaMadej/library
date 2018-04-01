@@ -10,6 +10,4 @@ import java.util.List;
 public class CategoryDto {
     private int categoryId;
     private String categoryName;
-    private List<BookDto> books;
-
 }

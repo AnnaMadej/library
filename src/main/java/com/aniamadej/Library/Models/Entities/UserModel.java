@@ -22,4 +22,11 @@ public class UserModel {
 
     @OneToMany(mappedBy = "who")
     private List<BookModel> books;
+
+    public UserModel(String name, String surname, String password, String login) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.login = login;
+    }
 }

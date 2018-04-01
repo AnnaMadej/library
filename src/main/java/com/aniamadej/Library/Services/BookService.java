@@ -1,16 +1,21 @@
 package com.aniamadej.Library.Services;
 
 import com.aniamadej.Library.Models.Entities.BookModel;
+import com.aniamadej.Library.Models.Entities.CategoryModel;
 import com.aniamadej.Library.Models.Forms.NewBookFormModel;
 import com.aniamadej.Library.Models.Repositories.BookRepository;
 import com.aniamadej.Library.Models.Repositories.CategoryRepository;
 import com.aniamadej.Library.Models.dtos.BookDto;
 import com.aniamadej.Library.Models.dtos.BookWithCategoryDto;
+import com.aniamadej.Library.Models.dtos.CategoryDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookService {
@@ -74,6 +79,13 @@ public class BookService {
         if (bookRepository.findById(bookId) == null)return false;
         bookRepository.deleteById(bookId);
         return true;
+    }
+
+    public List<CategoryDto> getAllCategories(){
+        List<CategoryModel> categoryModels = categoryRepository.findAllByOrderByCategoryNameAsc();
+        List<CategoryDto> categoryDtos= new ArrayList<>();
+        categoryModels.stream().forEach(categoryModel -> categoryDtos.add(modelMapper.map(categoryModel,CategoryDto.class)));
+        return categoryDtos;
     }
 
 }

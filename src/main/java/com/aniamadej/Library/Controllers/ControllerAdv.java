@@ -1,6 +1,6 @@
 package com.aniamadej.Library.Controllers;
-import com.aniamadej.Library.Models.Entities.CategoryModel;
-import com.aniamadej.Library.Models.Repositories.CategoryRepository;
+import com.aniamadej.Library.Models.dtos.CategoryDto;
+import com.aniamadej.Library.Services.BookService;
 import com.aniamadej.Library.Services.UserService;
 import com.aniamadej.Library.Models.dtos.LoggedUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +10,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
 
 @ControllerAdvice
-public class UserControllerAdvice {
+public class ControllerAdv {
+
+    private UserService userService;
+    private BookService bookService;
 
     @Autowired
-    UserService userService;
+    public ControllerAdv(UserService userService, BookService bookService) {
+        this.userService = userService;
+        this.bookService = bookService;
+    }
+
     @ModelAttribute("currentUser")
     public LoggedUserDto populateUser() {
         return userService.getUser();
     }
 
-
-    @Autowired
-    CategoryRepository categoryRepository;
     @ModelAttribute("categories")
-    public List<CategoryModel> fillCategories() {
-        return categoryRepository.findAllByOrderByCategoryNameAsc();
+    public List<CategoryDto> fillCategories() {
+        return bookService.getAllCategories();
     }
 }
