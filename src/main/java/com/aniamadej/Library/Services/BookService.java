@@ -39,16 +39,6 @@ public class BookService {
         return true;
     }
 
-    public Page<BookDto> getBooksOfCategory(int categoryId, Pageable pageable){
-       Page<BookModel> bookModels =  bookRepository.findAllByCategoryCategoryIdOrderByTitle(categoryId, pageable);
-       Page<BookDto> bookDtos = bookModels.map(bookModel -> modelMapper.map(bookModel, BookDto.class));
-       return bookDtos;
-    }
-
-    public String getCategoryName(int categoryId){
-        return categoryRepository.findByCategoryId(categoryId).getCategoryName();
-    }
-
     public Page<BookDto> getBooksWithPhrase(String phrase, Pageable pageable){
         Page<BookModel> bookModels = bookRepository.findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrderByTitle(phrase, phrase, pageable);
         Page<BookDto> bookDtos = bookModels.map(bookModel -> modelMapper.map(bookModel, BookDto.class));
@@ -66,7 +56,6 @@ public class BookService {
     public boolean editBook(Integer bookId, NewBookFormModel newBookForm) {
         BookModel bookModel = modelMapper.map(newBookForm,BookModel.class);
         bookModel.setId(bookId);
-        System.out.println(bookModel.getPages());
         bookRepository.save(bookModel);
         return true;
     }
@@ -81,11 +70,6 @@ public class BookService {
         return true;
     }
 
-    public List<CategoryDto> getAllCategories(){
-        List<CategoryModel> categoryModels = categoryRepository.findAllByOrderByCategoryNameAsc();
-        List<CategoryDto> categoryDtos= new ArrayList<>();
-        categoryModels.stream().forEach(categoryModel -> categoryDtos.add(modelMapper.map(categoryModel,CategoryDto.class)));
-        return categoryDtos;
-    }
+
 
 }

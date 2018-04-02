@@ -1,6 +1,7 @@
 package com.aniamadej.Library.Controllers;
 import com.aniamadej.Library.Models.dtos.CategoryDto;
 import com.aniamadej.Library.Services.BookService;
+import com.aniamadej.Library.Services.CategoryService;
 import com.aniamadej.Library.Services.UserService;
 import com.aniamadej.Library.Models.dtos.LoggedUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ public class ControllerAdv {
 
     private UserService userService;
     private BookService bookService;
+    private CategoryService categoryService;
 
     @Autowired
-    public ControllerAdv(UserService userService, BookService bookService) {
+    public ControllerAdv(UserService userService, BookService bookService, CategoryService categoryService) {
         this.userService = userService;
         this.bookService = bookService;
+        this.categoryService = categoryService;
     }
 
     @ModelAttribute("currentUser")
@@ -28,6 +31,6 @@ public class ControllerAdv {
 
     @ModelAttribute("categories")
     public List<CategoryDto> fillCategories() {
-        return bookService.getAllCategories();
+        return categoryService.getAllCategories();
     }
 }

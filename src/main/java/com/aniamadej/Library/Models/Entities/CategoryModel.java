@@ -15,9 +15,13 @@ import java.util.List;
 public class CategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int categoryId;
+    private Integer categoryId;
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.MERGE, CascadeType.PERSIST} , fetch = FetchType.LAZY)
     private List<BookModel> books;
+
+    public CategoryModel(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

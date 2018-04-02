@@ -2,6 +2,7 @@ package com.aniamadej.Library.Controllers;
 
 import com.aniamadej.Library.Models.Forms.NewBookFormModel;
 import com.aniamadej.Library.Services.BookService;
+import com.aniamadej.Library.Services.CategoryService;
 import com.aniamadej.Library.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,19 +19,20 @@ public class BookController {
 
     private BookService bookService;
     private UserService userService;
+    private CategoryService categoryService;
 
     @Autowired
-    public BookController(BookService bookService, UserService userService) {
+    public BookController(BookService bookService, UserService userService, CategoryService categoryService) {
         this.bookService = bookService;
         this.userService = userService;
+        this.categoryService = categoryService;
     }
-
 
     @GetMapping("/books/{categoryId}/{page}")
     public String books(@PathVariable("categoryId") int categoryId, @PathVariable("page") int page, Model model){
         Pageable pageable = new PageRequest(page,4);
-        model.addAttribute("books", bookService.getBooksOfCategory(categoryId, pageable));
-        model.addAttribute("categoryName", bookService.getCategoryName(categoryId));
+        model.addAttribute("books", categoryService.getBooksOfCategory(categoryId, pageable));
+        model.addAttribute("categoryName", categoryService.getCategoryName(categoryId));
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("pageNo", page);
         return "books";
