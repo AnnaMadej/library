@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -46,7 +47,9 @@ public class BookService {
     }
 
     public BookWithCategoryDto getBookWithCategoryDto(int bookId) {
-        return modelMapper.map(bookRepository.findById(bookId), BookWithCategoryDto.class);
+        Optional<BookModel> optionalBookModel = bookRepository.findById(bookId);
+        if(optionalBookModel.isPresent()) return modelMapper.map(optionalBookModel.get(),BookWithCategoryDto.class);
+        return new BookWithCategoryDto();
     }
 
     public NewBookFormModel getBookForm(int bookId){
@@ -61,12 +64,14 @@ public class BookService {
     }
 
     public BookDto getBookDto(Integer bookId){
-        return modelMapper.map(bookRepository.findById(bookId),BookDto.class);
+        Optional<BookModel> optionalBookModel = bookRepository.findById(bookId);
+        if(optionalBookModel.isPresent()) return modelMapper.map(optionalBookModel.get(),BookDto.class);
+        return new BookDto();
     }
 
     public boolean deleteBook(int bookId) {
-        if (bookRepository.findById(bookId) == null)return false;
-        bookRepository.deleteById(bookId);
+        Optional<BookModel> optionalBookModel =  bookRepository.findById(bookId);
+        optionalBookModel.ifPresent(bookModel -> bookRepository.delete(bookModel));
         return true;
     }
 

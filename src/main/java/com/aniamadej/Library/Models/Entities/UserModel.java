@@ -1,6 +1,5 @@
 package com.aniamadej.Library.Models.Entities;
 
-import com.aniamadej.Library.Models.Entities.BookModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

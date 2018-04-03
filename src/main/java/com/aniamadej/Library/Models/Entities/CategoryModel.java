@@ -18,7 +18,7 @@ public class CategoryModel {
     private Integer categoryId;
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.MERGE, CascadeType.PERSIST} , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.MERGE} , fetch = FetchType.LAZY)
     private List<BookModel> books;
 
     public CategoryModel(String categoryName) {

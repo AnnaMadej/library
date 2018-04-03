@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.aniamadej.Library.Models.Entities.UserModel;
 
 import java.util.Optional;
 
@@ -76,19 +77,25 @@ public class UserService {
     }
 
     public boolean updateProfile(ProfileForm profileForm) {
-        if(!correctPassword(profileForm.getOldPassword())) return false;
-        UserModel userModel = userRepository.findOne(this.getUser().getId());
-        modelMapper.map(profileForm, userModel);
-        userRepository.save(userModel);
+        if (!correctPassword(profileForm.getOldPassword())) {
+            return false;
+        }
+        Optional<UserModel> optionalUserModel = userRepository.findById(this.getUser().getId());
+        optionalUserModel.ifPresent(um -> {
+            um.setName(profileForm.getName());
+            um.setSurname(profileForm.getSurname());
+            userRepository.save(um);
+        });
         return true;
     }
 
     public Optional<String> changePasswd(PasswordChangeForm passwordChangeForm) {
         if(!correctPassword(passwordChangeForm.getOldPassword())) return Optional.of("badPassword");
         if (!passwordChangeForm.getPassword().equals(passwordChangeForm.getPassword2())) return Optional.of("passwordsError");
-        UserModel userModel = userRepository.findOne(this.getUser().getId());
-        userModel.setPassword(bCryptPasswordEncoder.encode(passwordChangeForm.getPassword()));
-        userRepository.save(userModel);
+        Optional<UserModel> optionalUserModel = userRepository.findById(this.getUser().getId());
+        optionalUserModel.ifPresent(um->{
+            um.setPassword(bCryptPasswordEncoder.encode(passwordChangeForm.getPassword()));
+            userRepository.save(um); });
         return Optional.of("changed");
     }
 

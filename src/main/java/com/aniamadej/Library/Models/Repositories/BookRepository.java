@@ -10,12 +10,6 @@ import javax.transaction.Transactional;
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<BookModel, Integer> {
     Page<BookModel> findAllByCategoryCategoryIdOrderByTitle(int categoryId, Pageable pageable);
-    BookModel findById(int id);
     Page<BookModel> findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrderByTitle(String words1, String words2, Pageable pageable);
 
-
-
-
-    @Transactional
-    void deleteById(int id);
 }

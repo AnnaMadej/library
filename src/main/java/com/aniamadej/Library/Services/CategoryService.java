@@ -69,10 +69,10 @@ public class CategoryService {
                 book.setCategory(newCategory);
                 bookRepository.save(book);
             });
-            categoryRepository.delete(categoryId);
+            categoryRepository.delete(categoryToDelete);
             return getCategoryDto(newCategory.getCategoryId());
         }
-        categoryRepository.delete(categoryId);
+        categoryRepository.delete(categoryToDelete);
         return getAllCategories();
     }
 

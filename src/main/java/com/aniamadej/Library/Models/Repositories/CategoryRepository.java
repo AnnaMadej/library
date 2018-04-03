@@ -16,5 +16,4 @@ public interface CategoryRepository extends CrudRepository<CategoryModel, Intege
     boolean existsBycategoryName(String categoryName);
     CategoryModel findByCategoryName(String categoryName);
     boolean existsByCategoryId(int categoryId);
-
 }
