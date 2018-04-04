@@ -1,6 +1,7 @@
 package com.aniamadej.Library.Controllers;
 
 import com.aniamadej.Library.Models.dtos.CategoryDto;
+import com.aniamadej.Library.Models.dtos.CategoryFullDto;
 import com.aniamadej.Library.RestResult;
 import com.aniamadej.Library.Services.BookService;
 import com.aniamadej.Library.Services.CategoryService;
@@ -32,6 +33,13 @@ public class CategoryRestController {
         CategoryDto categoryDto = categoryService.getCategoryDto(categoryId);
         if (categoryDto==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(RestResult.REST_RESULT_NO_ENTRY);
         return ResponseEntity.ok().body(categoryDto);
+    }
+
+    @GetMapping("/api/category/{categoryId}/books")
+    public ResponseEntity<Object> getCategoryBooks(@PathVariable("categoryId") Integer categoryId){
+        CategoryFullDto categoryFullDto = categoryService.getCategoryFullDto(categoryId);
+        if (categoryFullDto==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(RestResult.REST_RESULT_NO_ENTRY);
+        return ResponseEntity.ok().body(categoryFullDto);
     }
 
     @PostMapping("/api/category")

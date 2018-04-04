@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.aniamadej.Library.Models.Entities.UserModel;
 
 import java.util.Optional;
 
@@ -54,7 +53,7 @@ public class UserService {
             return false;
         }
         if (!correctPassword(login, password)) return false;
-        this.setUser(modelMapper.map(userRepository.findByLogin(login), LoggedUserDto.class));
+        this.setUser(userRepository.getLoggedUserDto(login));
         return true;
     }
 

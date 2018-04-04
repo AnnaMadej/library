@@ -11,11 +11,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CategoryDto {
-    private int categoryId;
+    private Integer categoryId;
     private String categoryName;
     private Long numberOfBooks;
 
-    public CategoryDto(int categoryId, String categoryName, Long numberOfBooks) {
+    public CategoryDto(Integer categoryId, String categoryName, Long numberOfBooks) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.numberOfBooks = numberOfBooks;

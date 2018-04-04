@@ -5,6 +5,7 @@ import com.aniamadej.Library.Models.Repositories.BookRepository;
 import com.aniamadej.Library.Models.Repositories.CategoryRepository;
 import com.aniamadej.Library.Models.dtos.BookDto;
 import com.aniamadej.Library.Models.dtos.CategoryDto;
+import com.aniamadej.Library.Models.dtos.CategoryFullDto;
 import com.aniamadej.Library.RestResult;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,7 @@ public class CategoryService {
     }
 
     public List<CategoryDto> getAllCategories(){
-        List<CategoryModel> categoryModels = categoryRepository.findAllByOrderByCategoryNameAsc();
-        List<CategoryDto> categoryDtos= new ArrayList<>();
-        categoryModels.forEach(categoryModel -> categoryDtos.add(modelMapper.map(categoryModel,CategoryDto.class)));
-        return categoryDtos;
+       return categoryRepository.getAllCategoryDtos();
     }
 
     public Object addCategory(String categoryName){
@@ -40,7 +38,7 @@ public class CategoryService {
         }
         CategoryModel categoryModel = new CategoryModel(categoryName);
         categoryModel = categoryRepository.save(categoryModel);
-        return modelMapper.map(categoryModel, CategoryDto.class);
+        return categoryRepository.getCatDto(categoryModel.getCategoryId());
 
     }
 
@@ -52,7 +50,7 @@ public class CategoryService {
         CategoryModel categoryModel = categoryRepository.findByCategoryId(categoryId);
         categoryModel.setCategoryName(categoryName);
         categoryModel = categoryRepository.save(categoryModel);
-        return modelMapper.map(categoryModel, CategoryDto.class);
+        return categoryRepository.getCatDto(categoryId);
     }
 
     public Object deleteCategory(Integer categoryId, String newCategoryName) {
@@ -76,19 +74,17 @@ public class CategoryService {
         return getAllCategories();
     }
 
-    public Page<BookDto> getBooksOfCategory(Integer categoryId, Pageable pageable){
-        Page<BookModel> bookModels =  bookRepository.findAllByCategoryCategoryIdOrderByTitle(categoryId, pageable);
-        Page<BookDto> bookDtos = bookModels.map(bookModel -> modelMapper.map(bookModel, BookDto.class));
-        return bookDtos;
-    }
-
     public String getCategoryName(Integer categoryId){
         return categoryRepository.findByCategoryId(categoryId).getCategoryName();
     }
 
     public CategoryDto getCategoryDto(Integer categoryId) {
+        CategoryDto categoryDto = categoryRepository.getCatDto(categoryId);
+        return categoryDto.getCategoryId()!=null?categoryDto:null;
+    }
+
+    public CategoryFullDto getCategoryFullDto(Integer categoryId){
         CategoryModel categoryModel = categoryRepository.findByCategoryId(categoryId);
-        if (categoryModel==null) return null;
-        return modelMapper.map(categoryModel, CategoryDto.class);
+        return categoryModel!=null?modelMapper.map(categoryModel, CategoryFullDto.class):null;
     }
 }

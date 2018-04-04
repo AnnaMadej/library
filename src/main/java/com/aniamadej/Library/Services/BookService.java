@@ -32,12 +32,12 @@ public class BookService {
         this.modelMapper = modelMapper;
     }
 
-    public boolean addBook(NewBookFormModel newBookForm) {
+    public BookDto addBook(NewBookFormModel newBookForm) {
         BookModel  bookModel=  modelMapper.map(newBookForm,BookModel.class);
         bookModel.setCategory(categoryRepository.findByCategoryId(newBookForm.getCategoryId()));
         bookModel.setId(null);
-        bookRepository.save(bookModel);
-        return true;
+        bookModel = bookRepository.save(bookModel);
+        return modelMapper.map(bookModel, BookDto.class);
     }
 
     public Page<BookDto> getBooksWithPhrase(String phrase, Pageable pageable){
@@ -73,6 +73,18 @@ public class BookService {
         Optional<BookModel> optionalBookModel =  bookRepository.findById(bookId);
         optionalBookModel.ifPresent(bookModel -> bookRepository.delete(bookModel));
         return true;
+    }
+
+    public Page<BookDto> getBooksOfCategory(Integer categoryId, Pageable pageable){
+        Page<BookModel> bookModels =  bookRepository.findAllByCategoryCategoryIdOrderByTitle(categoryId, pageable);
+        Page<BookDto> bookDtos = bookModels.map(bookModel -> modelMapper.map(bookModel, BookDto.class));
+        return bookDtos;
+    }
+
+    public Page<BookDto> getAllBooks(Pageable pageable){
+        Page<BookModel> bookModels =  bookRepository.findAll(pageable);
+        Page<BookDto> bookDtos = bookModels.map(bookModel -> modelMapper.map(bookModel, BookDto.class));
+        return bookDtos;
     }
 
 

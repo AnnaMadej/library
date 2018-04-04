@@ -15,9 +15,6 @@ public class BookModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne
-    @JoinColumn (name="who")
-    private UserModel who;
     private String title;
     private String author;
     private int pages;
@@ -26,8 +23,7 @@ public class BookModel {
     @JoinColumn (name="categoryId")
     private CategoryModel category;
 
-    public BookModel(UserModel who, String title, String author, int pages, CategoryModel category) {
-        this.who = who;
+    public BookModel(String title, String author, int pages, CategoryModel category) {
         this.title = title;
         this.author = author;
         this.pages = pages;

@@ -14,13 +14,11 @@ import java.util.List;
 public class ControllerAdv {
 
     private UserService userService;
-    private BookService bookService;
     private CategoryService categoryService;
 
     @Autowired
-    public ControllerAdv(UserService userService, BookService bookService, CategoryService categoryService) {
+    public ControllerAdv(UserService userService, CategoryService categoryService) {
         this.userService = userService;
-        this.bookService = bookService;
         this.categoryService = categoryService;
     }
 

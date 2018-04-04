@@ -1,15 +1,16 @@
 package com.aniamadej.Library.Models.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoggedUserDto {
-    String login;
-    int Id;
+public class CategoryFullDto {
+    private Integer categoryId;
+    private String categoryName;
+    private List<BookDto> books;
 }

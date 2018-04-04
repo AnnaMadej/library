@@ -1,7 +1,8 @@
 package com.aniamadej.Library.Models.Forms;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data

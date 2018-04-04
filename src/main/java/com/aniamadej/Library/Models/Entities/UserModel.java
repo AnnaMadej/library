@@ -19,9 +19,6 @@ public class UserModel {
     private String password;
     private String login;
 
-    @OneToMany(mappedBy = "who")
-    private List<BookModel> books;
-
     public UserModel(String name, String surname, String password, String login) {
         this.name = name;
         this.surname = surname;

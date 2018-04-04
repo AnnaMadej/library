@@ -16,4 +16,11 @@ public interface CategoryRepository extends CrudRepository<CategoryModel, Intege
     boolean existsBycategoryName(String categoryName);
     CategoryModel findByCategoryName(String categoryName);
     boolean existsByCategoryId(int categoryId);
+
+    @Query("SELECT new com.aniamadej.Library.Models.dtos.CategoryDto(c.categoryId, c.categoryName, count(b.id)) from CategoryModel c left join BookModel b on c.categoryId=b.category where c.categoryId=:categoryId")
+    CategoryDto getCatDto(@Param("categoryId") Integer categoryId);
+
+    @Query("SELECT new com.aniamadej.Library.Models.dtos.CategoryDto(c.categoryId, c.categoryName, count(b.id)) from CategoryModel c left join BookModel b on c.categoryId=b.category group by c.categoryId")
+    List<CategoryDto> getAllCategoryDtos();
+
 }
