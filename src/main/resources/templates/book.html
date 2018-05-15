@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Delete</title>
+    <title>Book</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -17,7 +17,6 @@
 <body>
 <nav th:replace="Fragments/Menus :: top-menu"></nav>
 <div th:replace="Fragments/Menus :: side-menu"></div>
-<!-- Page Content -->
 
 <div class="container col-md-9">
     <div class="row">
@@ -36,8 +35,8 @@
                             <h4>Autor: <span th:text="${book.author}"></span></h4>
                             <h4>Kategoria: <a th:href="@{'/books/' + ${book.category.categoryId} + '/0'}"><span th:text="${book.category.categoryName}"></span></a></h4>
                             <p><span>Stron: </span><span th:text="${book.pages}"></span></p>
-                            <a th:if="${currentUser.login!=null}" class="btn btn-primary"  th:href="@{'/book/' + ${book.id} + '/edit'}" >Edytuj <i class="fa fa-angle-right"></i></a>
-                            &nbsp;<a th:if="${currentUser.login!=null}" class="btn btn-danger" th:href="@{'/book/' + ${book.id} + '/delete'}" >Usuń <i class="fa fa-angle-right"></i></a>
+                            <a th:if="${currentUser!=null}" class="btn btn-primary"  th:href="@{'/book/' + ${book.id} + '/edit'}" >Edytuj <i class="fa fa-angle-right"></i></a>
+                            &nbsp;<a th:if="${currentUser!=null}" class="btn btn-danger" th:href="@{'/book/' + ${book.id} + '/delete'}" >Usuń <i class="fa fa-angle-right"></i></a>
 
                         </div>
                     </div>

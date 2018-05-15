@@ -79,7 +79,6 @@ public class BookController {
 
     @GetMapping("/book/{bookId}/edit")
     public String register(@PathVariable int bookId, Model model) {
-        if (userService.getUser().getLogin() == null) return "redirect:/login";
         model.addAttribute("bookForm", bookService.getBookForm(bookId));
         model.addAttribute("bookId", bookId);
         return "editBook";
@@ -87,7 +86,6 @@ public class BookController {
 
     @PostMapping("/book/{bookId}/edit")
     public String register(@ModelAttribute("bookForm") @Valid NewBookFormModel bookForm, BindingResult bindingResult, @PathVariable int bookId, Model model) {
-        if (userService.getUser().getLogin() == null) return "redirect:/login";
         BookDto bookDto = bookService.editBook(bookId, bookForm);
         if(bookDto.getTitle()==null)   return "editBook";
         model.addAttribute("book", bookDto);
@@ -98,7 +96,6 @@ public class BookController {
 
     @GetMapping("/book/{bookId}/delete")
     public String delete(@PathVariable int bookId, Model model) {
-        if (userService.getUser().getLogin() == null) return "redirect:/login";
         model.addAttribute("book", bookService.getBookWithCategoryDto(bookId));
         return "deleteBook";
     }
@@ -106,14 +103,12 @@ public class BookController {
 
     @PostMapping("/book/{bookId}/delete")
     public String register(Model model, @PathVariable int bookId) {
-        if (userService.getUser().getLogin() == null) return "redirect:/login";
         model.addAttribute("deleted", bookService.deleteBook(bookId));
         return "blank";
     }
 
     @GetMapping("/book/add")
     public String register(Model model){
-        if (userService.getUser().getLogin()==null) return "redirect:/login";
         model.addAttribute("newBookForm", new NewBookFormModel());
         return "addBook";
     }

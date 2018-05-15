@@ -21,20 +21,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="${currentUser.login != null}"> <a th:href="@{/book/add/}" ><i class="glyphicon glyphicon glyphicon-book"></i> Dodaj ksiażkę </a></li>
+                <li th:if="${currentUser != null}"> <a th:href="@{/book/add/}" ><i class="glyphicon glyphicon glyphicon-book"></i> Dodaj ksiażkę </a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><span th:if="${currentUser.login!=null}" th:text="' ' + ${currentUser.login}"></span></span><b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><span th:if="${currentUser!=null}" th:text="' ' + ${currentUser}"></span><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li th:if="${currentUser.login!=null}"> <a th:href="@{/profile}" ><i class="glyphicon glyphicon-user"></i> Twój profil  </a>
+                        <li th:if="${currentUser!=null}"> <a th:href="@{/profile}" ><i class="glyphicon glyphicon-user"></i> Twój profil  </a>
                         </li>
-                        <li th:if="${currentUser.login!=null}"> <a th:href="@{/passwordChange}" ><i class="glyphicon glyphicon-user"></i> Zmień hasło  </a>
+                        <li th:if="${currentUser!=null}"> <a th:href="@{/passwordChange}" ><i class="glyphicon glyphicon-user"></i> Zmień hasło  </a>
                         </li>
                         <li class="divider"></li>
-                        <li th:if="${currentUser.login == null}"> <a th:href="@{/login}" ><i class="glyphicon glyphicon-log-in"></i> Logowanie </a>
+                        <li th:if="${currentUser == null}"> <a th:href="@{/login}" ><i class="glyphicon glyphicon-log-in"></i> Logowanie </a>
                         </li>
-                        <li th:if="${currentUser.login==null}"> <a th:href="@{/register}"  ><i class="glyphicon glyphicon-plus-sign"></i> Rejestracja </a>
+                        <li th:if="${currentUser==null}"> <a th:href="@{/register}"  ><i class="glyphicon glyphicon-plus-sign"></i> Rejestracja </a>
                         </li>
-                        <li th:if="${currentUser.login != null}"> <a th:href="@{/logout}" ><i class="glyphicon glyphicon-log-out"></i> Wyloguj </a>
+                        <li th:if="${currentUser != null}"> <a th:href="@{/logout}" ><i class="glyphicon glyphicon-log-out"></i> Wyloguj </a>
                         </li>
                     </ul>
                 </li>

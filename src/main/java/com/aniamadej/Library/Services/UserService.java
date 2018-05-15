@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +36,9 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    LoggedUserDto user = new LoggedUserDto();
 
     public boolean correctPassword(String password){
-        if (!correctPassword(this.getUser().getLogin(), password)) return false;
+        if (!correctPassword(SecurityContextHolder.getContext().getAuthentication().getName(), password)) return false;
         return true;
     }
 
@@ -47,18 +48,6 @@ public class UserService {
         }
         return true;
     }
-
-    public boolean loginUser(String login, String password){
-        if (!userRepository.existsByLogin(login)) {
-            return false;
-        }
-        if (!correctPassword(login, password)) return false;
-        this.setUser(userRepository.getLoggedUserDto(login));
-        return true;
-    }
-
-
-
 
     public Optional<String> registerUser(RegisterForm registerForm) {
         if (!registerForm.getPassword().equals(registerForm.getPassword2()))
@@ -72,34 +61,45 @@ public class UserService {
     }
 
     public UserDto getFullUserData(){
-        return modelMapper.map(userRepository.findByLogin(this.getUser().getLogin()), UserDto.class);
+        return modelMapper.map(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()), UserDto.class);
+    }
+
+    public UserDto getFullUserData(String login){
+        return modelMapper.map(userRepository.findByLogin(login), UserDto.class);
     }
 
     public boolean updateProfile(ProfileForm profileForm) {
         if (!correctPassword(profileForm.getOldPassword())) {
             return false;
         }
-        Optional<UserModel> optionalUserModel = userRepository.findById(this.getUser().getId());
-        optionalUserModel.ifPresent(um -> {
-            um.setName(profileForm.getName());
-            um.setSurname(profileForm.getSurname());
-            userRepository.save(um);
-        });
+        UserModel userModel= userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userModel != null){
+            userModel.setName(profileForm.getName());
+            userModel.setSurname(profileForm.getSurname());
+            userRepository.save(userModel);
+        }
         return true;
     }
 
     public Optional<String> changePasswd(PasswordChangeForm passwordChangeForm) {
         if(!correctPassword(passwordChangeForm.getOldPassword())) return Optional.of("badPassword");
         if (!passwordChangeForm.getPassword().equals(passwordChangeForm.getPassword2())) return Optional.of("passwordsError");
-        Optional<UserModel> optionalUserModel = userRepository.findById(this.getUser().getId());
-        optionalUserModel.ifPresent(um->{
-            um.setPassword(bCryptPasswordEncoder.encode(passwordChangeForm.getPassword()));
-            userRepository.save(um); });
+
+        UserModel userModel = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (userModel!=null){
+            userModel.setPassword(bCryptPasswordEncoder.encode(passwordChangeForm.getPassword()));
+            userRepository.save(userModel);
+        }
         return Optional.of("changed");
     }
 
     public ProfileForm getProfileForm(){
         return modelMapper.map(getFullUserData(), ProfileForm.class);
+    }
+
+    public ProfileForm getProfileForm(String login){
+        return modelMapper.map(getFullUserData(login), ProfileForm.class);
     }
 }
 

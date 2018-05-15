@@ -5,6 +5,7 @@ import com.aniamadej.Library.Services.CategoryService;
 import com.aniamadej.Library.Services.UserService;
 import com.aniamadej.Library.Models.dtos.LoggedUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -15,7 +16,6 @@ public class ControllerAdv {
 
     private UserService userService;
     private CategoryService categoryService;
-
     @Autowired
     public ControllerAdv(UserService userService, CategoryService categoryService) {
         this.userService = userService;
@@ -23,8 +23,9 @@ public class ControllerAdv {
     }
 
     @ModelAttribute("currentUser")
-    public LoggedUserDto populateUser() {
-        return userService.getUser();
+    public String populateUser() {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return "anonymousUser".equalsIgnoreCase(userName)?null:userName;
     }
 
     @ModelAttribute("categories")

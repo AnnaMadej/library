@@ -30,7 +30,7 @@
         <div class="col-md-9">
             <div class="panel-body">
                 <div class="jumbotron text-center" th:if="${changed==true}"> Dane zmienione! </div>
-                <h3 th:text = "${currentUser.login}"></h3>
+                <h3 th:text = "${currentUser}"></h3>
                 <form role="form" enctype="multipart/form-data" th:action="@{/profile}" th:method="post" th:object="${profileForm}">
                 <div th:class="${#fields.hasErrors('name')?'form-group has-error':'form group'}">
                     <label for="name" class=control-label > Imię: </label>
