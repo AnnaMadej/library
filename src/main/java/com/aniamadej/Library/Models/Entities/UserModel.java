@@ -1,14 +1,15 @@
 package com.aniamadej.Library.Models.Entities;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 @Table(name="user")
 public class UserModel {
     @Id
@@ -25,4 +26,5 @@ public class UserModel {
         this.password = password;
         this.login = login;
     }
+
 }

@@ -40,7 +40,7 @@
             <div class="jumbotron text-center">
                 <form role="form" class="form form-inline" enctype="multipart/form-data" th:action="@{'/book/' + ${book.id} + '/delete'}" th:method="post">
                     Czy chcesz usunąć powyższą książkę?
-                    <input type="submit" class="btn btn-danger" value="TAK">
+                    <input type="submit" class="btn btn-success" value="TAK">
                     <a th:href="@{'/book/' + ${book.id}}"><button type="button" class="btn btn-success " >NIE</button></a>
                 </form>
 

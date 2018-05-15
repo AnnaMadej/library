@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +47,7 @@ public class BookController {
     @GetMapping("/books/{categoryId}/{page}")
     public String books(@PathVariable("categoryId") int categoryId, @PathVariable("page") int page, Model model){
         Pageable pageable = PageRequest.of(page,4);
+
         model.addAttribute("books", bookService.getBooksOfCategory(categoryId, pageable));
         model.addAttribute("categoryName", categoryService.getCategoryName(categoryId));
         model.addAttribute("categoryId", categoryId);
@@ -57,7 +57,7 @@ public class BookController {
 
     @GetMapping("/book/{bookId}")
     public String book(@PathVariable("bookId") int bookId, Model model ){
-        model.addAttribute("book", bookService.getBookDto(bookId));
+        model.addAttribute("book", bookService.getBookWithCategoryDto(bookId));
         return "book";
     }
 
@@ -73,6 +73,7 @@ public class BookController {
 
     @GetMapping("/search")
     public String search (@RequestParam("phrase") String phrase){
+        phrase = phrase==""?" ":phrase;
         return "redirect:/search/" + phrase + '/' + 0;
     }
 
@@ -87,14 +88,18 @@ public class BookController {
     @PostMapping("/book/{bookId}/edit")
     public String register(@ModelAttribute("bookForm") @Valid NewBookFormModel bookForm, BindingResult bindingResult, @PathVariable int bookId, Model model) {
         if (userService.getUser().getLogin() == null) return "redirect:/login";
-        model.addAttribute("success", bookService.editBook(bookId, bookForm));
-        return "editBook";
+        BookDto bookDto = bookService.editBook(bookId, bookForm);
+        if(bookDto.getTitle()==null)   return "editBook";
+        model.addAttribute("book", bookDto);
+        model.addAttribute("result","Dane książki zostały zmienione");
+        return "book";
+
     }
 
     @GetMapping("/book/{bookId}/delete")
     public String delete(@PathVariable int bookId, Model model) {
         if (userService.getUser().getLogin() == null) return "redirect:/login";
-        model.addAttribute("book", bookService.getBookDto(bookId));
+        model.addAttribute("book", bookService.getBookWithCategoryDto(bookId));
         return "deleteBook";
     }
 
@@ -118,7 +123,7 @@ public class BookController {
         if(!bindingResult.hasErrors()){
             BookDto bookDto =bookService.addBook(newBookForm);
             if (bookDto.getTitle() != null) {
-                model.addAttribute("success", true);
+                model.addAttribute("result", "Książka została dodana!");
                 model.addAttribute("book", bookDto);
                 return "book";
             }

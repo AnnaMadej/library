@@ -1,21 +1,17 @@
 package com.aniamadej.Library.Services;
 
 import com.aniamadej.Library.Models.Entities.BookModel;
-import com.aniamadej.Library.Models.Entities.CategoryModel;
 import com.aniamadej.Library.Models.Forms.NewBookFormModel;
 import com.aniamadej.Library.Models.Repositories.BookRepository;
 import com.aniamadej.Library.Models.Repositories.CategoryRepository;
 import com.aniamadej.Library.Models.dtos.BookDto;
 import com.aniamadej.Library.Models.dtos.BookWithCategoryDto;
-import com.aniamadej.Library.Models.dtos.CategoryDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,12 +28,12 @@ public class BookService {
         this.modelMapper = modelMapper;
     }
 
-    public BookDto addBook(NewBookFormModel newBookForm) {
+    public BookWithCategoryDto addBook(NewBookFormModel newBookForm) {
         BookModel  bookModel=  modelMapper.map(newBookForm,BookModel.class);
         bookModel.setCategory(categoryRepository.findByCategoryId(newBookForm.getCategoryId()));
         bookModel.setId(null);
         bookModel = bookRepository.save(bookModel);
-        return modelMapper.map(bookModel, BookDto.class);
+        return modelMapper.map(bookModel, BookWithCategoryDto.class);
     }
 
     public Page<BookDto> getBooksWithPhrase(String phrase, Pageable pageable){
@@ -56,17 +52,11 @@ public class BookService {
         return modelMapper.map(getBookWithCategoryDto(bookId), NewBookFormModel.class);
     }
 
-    public boolean editBook(Integer bookId, NewBookFormModel newBookForm) {
+    public BookWithCategoryDto editBook(Integer bookId, NewBookFormModel newBookForm) {
         BookModel bookModel = modelMapper.map(newBookForm,BookModel.class);
         bookModel.setId(bookId);
-        bookRepository.save(bookModel);
-        return true;
-    }
-
-    public BookDto getBookDto(Integer bookId){
-        Optional<BookModel> optionalBookModel = bookRepository.findById(bookId);
-        if(optionalBookModel.isPresent()) return modelMapper.map(optionalBookModel.get(),BookDto.class);
-        return new BookDto();
+        bookModel = bookRepository.save(bookModel);
+        return modelMapper.map(bookModel, BookWithCategoryDto.class);
     }
 
     public boolean deleteBook(int bookId) {

@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class BookWithCategoryDto extends BookDto{
     private CategoryDto category;
-
     public BookWithCategoryDto(int id, String title, String author, int pages, CategoryDto category) {
         super(id, title, author, pages);
         this.category = category;

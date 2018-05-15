@@ -1,5 +1,6 @@
 package com.aniamadej.Library.Models.Entities;
 import com.aniamadej.Library.Models.Entities.BookModel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "category")
 public class CategoryModel {
     @Id

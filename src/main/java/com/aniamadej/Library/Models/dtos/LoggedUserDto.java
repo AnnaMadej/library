@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoggedUserDto {
-    String login;
-    int Id;
+    private String login;
+    private int Id;
 }

@@ -29,11 +29,12 @@
     <div class="row">
         <div class="col-md-9">
             <div class="panel-body">
-                <div class="jumbotron text-center" th:if="${success==true}"> Książka została dodana! </div>
+                <div class="jumbotron text-center" th:if="${result!=null}" th:text="${result}"></div>
                 <div class="row">
                         <div class="col-md-12">
-                            <h3 th:text="${book.title}"></h3>
-                            <h4 th:text="${book.author}"></h4>
+                            <h3>Tytuł: <span th:text="${book.title}"></span></h3>
+                            <h4>Autor: <span th:text="${book.author}"></span></h4>
+                            <h4>Kategoria: <a th:href="@{'/books/' + ${book.category.categoryId} + '/0'}"><span th:text="${book.category.categoryName}"></span></a></h4>
                             <p><span>Stron: </span><span th:text="${book.pages}"></span></p>
                             <a th:if="${currentUser.login!=null}" class="btn btn-primary"  th:href="@{'/book/' + ${book.id} + '/edit'}" >Edytuj <i class="fa fa-angle-right"></i></a>
                             &nbsp;<a th:if="${currentUser.login!=null}" class="btn btn-danger" th:href="@{'/book/' + ${book.id} + '/delete'}" >Usuń <i class="fa fa-angle-right"></i></a>
