@@ -40,6 +40,6 @@
 
 * Żądania typu DELETE:
     * usunięcie pustej kategorii
-        * /api/category/categoryId\
+        * /api/category/categoryId
     * usunięcie niepustej kategorii z przeniesieniem jej zawartości do innej kategorii (całkiem nowej lub istniejącej)
         * /api/category/categoryId?newCategoryName=nowaNazwaKategorii
