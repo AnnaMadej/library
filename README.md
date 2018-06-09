@@ -1,4 +1,4 @@
-# Aplikacja umożlwiająca przechowywanie informacji na temat kolekcji książek.
+# Aplikacja umożliwiająca przechowywanie informacji na temat kolekcji książek.
 ## Autor: Anna Madej
 
 ### Funkcjonalności dostępne przez stronę www:
@@ -25,7 +25,7 @@
     * wyświetlanie informacji o konkretnej kategorii wraz z ilością książek
         * /api/category/numerKategorii
     * wyświetlanie informacji o konkretnej kategorii wraz z danymi wszystkich książek
-        * /api/category/books/{numerKategorii}
+        * /api/category/{numerKategorii}/books
         
 
 * Żądanie typu POST:
