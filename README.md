@@ -1,6 +1,8 @@
 # Aplikacja umożliwiająca przechowywanie informacji na temat kolekcji książek.
 ## Autor: Anna Madej
 
+omówienie projektu: https://www.youtube.com/watch?v=twlBkOLpeKo
+
 ### Funkcjonalności dostępne przez stronę www:
 #### Dostępne dla wszystkich:
 * wyświetlanie listy książek z użyciem paginacji:
